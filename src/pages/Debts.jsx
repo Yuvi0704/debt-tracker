@@ -55,17 +55,22 @@ const Debts = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const payload = {
+        user_id: user.id,
+        name: formData.name,
+        type: formData.type,
+        original_amount: parseFloat(formData.original_amount),
+        current_balance: parseFloat(formData.current_balance),
+        interest_rate: formData.interest_rate ? parseFloat(formData.interest_rate) : 0,
+        minimum_payment: formData.minimum_payment ? parseFloat(formData.minimum_payment) : 0,
+        due_date: formData.due_date ? parseInt(formData.due_date) : null,
+        notes: formData.notes || null
+      };
+
       const { data, error } = await supabase
         .from('debts')
-        .insert([{
-          ...formData,
-          user_id: user.id,
-          original_amount: parseFloat(formData.original_amount),
-          current_balance: parseFloat(formData.current_balance),
-          interest_rate: formData.interest_rate ? parseFloat(formData.interest_rate) : 0,
-          minimum_payment: formData.minimum_payment ? parseFloat(formData.minimum_payment) : 0,
-          due_date: formData.due_date ? parseInt(formData.due_date) : null
-        }]);
+        .insert([payload])
+        .select();
 
       if (error) throw error;
       
@@ -77,7 +82,7 @@ const Debts = () => {
       fetchDebts();
     } catch (error) {
       console.error('Error adding debt:', error);
-      alert('Failed to add debt. Please try again.');
+      alert('Failed to add debt: ' + (error.message || 'Please try again.'));
     }
   };
 

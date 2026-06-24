@@ -72,14 +72,21 @@ const Payments = () => {
     try {
       const amount = parseFloat(formData.amount);
       
-      // 1. Insert Payment
+      // 1. Build explicit payload — no raw formData spread
+      const payload = {
+        user_id: user.id,
+        debt_id: formData.debt_id,
+        amount: amount,
+        date: formData.date,
+        payment_type: formData.payment_type,
+        payment_method: formData.payment_method || null,
+        notes: formData.notes || null
+      };
+
       const { error: paymentError } = await supabase
         .from('payments')
-        .insert([{
-          ...formData,
-          user_id: user.id,
-          amount: amount
-        }]);
+        .insert([payload])
+        .select();
 
       if (paymentError) throw paymentError;
 
@@ -101,7 +108,7 @@ const Payments = () => {
       fetchDebts();
     } catch (error) {
       console.error('Error adding payment:', error);
-      alert('Failed to add payment.');
+      alert('Failed to add payment: ' + (error.message || 'Please try again.'));
     } finally {
       setIsSubmitting(false);
     }
