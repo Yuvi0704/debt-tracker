@@ -1,0 +1,46 @@
+.table-container {
+  overflow-x: auto;
+  padding: 0;
+}
+
+.payments-table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+}
+
+.payments-table th,
+.payments-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.payments-table th {
+  background-color: rgba(255, 255, 255, 0.02);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.payments-table tr:last-child td {
+  border-bottom: none;
+}
+
+.payments-table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.payments-table tbody tr:hover {
+  background-color: var(--color-bg-elevated-hover);
+}
+
+.badge-outline {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  text-transform: capitalize;
+}
